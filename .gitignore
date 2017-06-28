@@ -21,7 +21,7 @@
 .byebug_history
 /config/secrets.yml
 /config/database.yml
-
+./idea/*
 /.framgia-ci-reports
 .framgia-ci-result.temp.yml
 coverage
