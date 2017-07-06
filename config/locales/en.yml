@@ -39,3 +39,6 @@ en:
   search: "Search"
   step_title: "Step Title"
   update_story: "Update Story"
+  comment:
+    comment: "Comment"
+    write_comment: "Write comment ..."

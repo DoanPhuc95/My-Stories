@@ -1,0 +1,7 @@
+$("#form-vote").attr("action", "/votes");
+$("#form-vote").html("" +
+  "<input name='utf-8' type='hidden' value='✓'>" +
+  "<input type='hidden' name='story_id' id='story_id' value='<%= @story.id %>'>" +
+  "<button name='button' type='submit' class='btn-vote'>" +
+  " <span class='glyphicon glyphicon-heart-empty'></span>" +
+  "</button>"+"<ul><%= vote_count %> <%= 'like'.pluralize vote_count %></ul>");

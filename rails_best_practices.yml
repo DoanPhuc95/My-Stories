@@ -32,7 +32,7 @@ RemoveUnusedMethodsInControllersCheck: {
     RegistrationsController#create, ApplicationController#configure_permitted_parameters,
     StoriesController#index,
     SearchesController#index, SearchesController#search_story,
-    AutocompleteController#index
+    AutocompleteController#index, VotesController#create
   ]
 }
 RemoveUnusedMethodsInHelpersCheck: { except_methods: [] }

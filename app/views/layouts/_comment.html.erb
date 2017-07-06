@@ -1,0 +1,25 @@
+<div>
+  <h3><%= t "comment.comment" %></h3>
+  <% if vote = is_voted? %>
+    <%= form_tag vote_path(vote), id: "form-vote", remote: true, method: :delete do %>
+      <%= button_tag "", class: "btn-vote" do %>
+        <span class="glyphicon glyphicon-heart"></span>
+      <% end %>
+      <ul><%= vote_count %> <%= "like".pluralize vote_count %></ul>
+    <% end %>
+  <% else %>
+    <%= form_tag votes_path, id: "form-vote", remote: true do %>
+      <%= hidden_field_tag :story_id, story.id %>
+      <%= button_tag "", class: "btn-vote" do %>
+        <span class="glyphicon glyphicon-heart-empty"></span>
+      <% end %>
+      <ul><%= vote_count %> <%= "like".pluralize vote_count %></ul>
+    <% end %>
+  <% end %>
+
+  <ul>
+    <% Comment.all.each do |comment| %>
+        <ul><%= comment.content %></ul></br>
+    <% end %>
+  </ul>
+</div>

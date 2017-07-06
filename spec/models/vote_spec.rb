@@ -12,17 +12,17 @@ RSpec.describe Vote, type: :model do
 
    describe "validations" do
     before do
-      @sample_story_vote = FactoryGirl.build :story_vote
-      @sample_step_vote = FactoryGirl.build :step_vote
+      @sample_story_vote = FactoryGirl.build(:story_vote, user: @user)
+      @sample_step_vote = FactoryGirl.build(:step_vote, user: @user)
     end
 
     it "is invalid if user_id is blank case story" do
-      @sample_story_vote.user_id = nil
+      @sample_story_vote.user = nil
       expect(@sample_story_vote).to_not be_valid
     end
 
     it "is invalid if user_id is blank case step" do
-      @sample_step_vote.user_id = nil
+      @sample_step_vote.user = nil
       expect(@sample_step_vote).to_not be_valid
     end
 
@@ -44,15 +44,23 @@ RSpec.describe Vote, type: :model do
     it "is invalid if voteable_type is blank case step" do
       @sample_step_vote.voteable_type = nil
       expect(@sample_step_vote).to_not be_valid
-      end
+    end
 
     it "is invalid if duplicate vote case story" do
+      @sample_story_vote.save
       @sample_story_vote2 = FactoryGirl.build :story_vote
+      @sample_story_vote2.voteable = @sample_story_vote.voteable
+      @sample_story_vote2.user = @sample_story_vote.user
+      @sample_story_vote2.save
       expect(@sample_story_vote2).to_not be_valid
     end
 
     it "is invalid if duplicate vote case step" do
+      @sample_step_vote.save
       @sample_step_vote2 = FactoryGirl.build :step_vote
+      @sample_step_vote2.voteable = @sample_step_vote.voteable
+      @sample_step_vote2.user = @sample_step_vote.user
+      @sample_step_vote2.save
       expect(@sample_step_vote2).to_not be_valid
     end
    end
