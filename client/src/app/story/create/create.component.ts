@@ -144,7 +144,8 @@ export class CreateComponent implements OnInit {
   }
 
   form_is_invalid(): boolean {
-    if (!this.StoryForm.dirty && !this.StoryForm.valid) {
+    if (this.StoryForm.dirty && this.StoryForm.valid) {
+      console.log('false');
       return this.StoryForm.value.image === '';
     }
     return true;
@@ -233,7 +234,7 @@ export class CreateComponent implements OnInit {
       }, 1500);
       return;
     }
-    const step_next = '#step' + (this.presentStep +1);
+    const step_next = '#step' + (this.presentStep + 1);
     $(step_next).fadeIn();
     $(step_next).addClass('animated fadeInRight');
     setInterval(function() {
