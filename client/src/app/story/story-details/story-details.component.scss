@@ -9,6 +9,7 @@ $gray: #d7d7d7;
   padding: 0 50px;
   margin-bottom: 50px;
   background-color: $background;
+  position: relative;
 }
 
 .story-header {
@@ -70,4 +71,15 @@ $gray: #d7d7d7;
 
 .border {
   border: 1px solid $gray;
+}
+
+
+.story-menu {
+  position: absolute;
+  top: 20px;
+  right: 0;
+}
+
+.mat-dialog-container {
+  padding-top: 0;
 }

@@ -36,6 +36,7 @@ import { StoriesListComponent, StoryThumbnailComponent, StoryDetailsComponent,
 import { SearchComponent } from './search/search.component';
 import { StoryResolverService } from './story/shared/story-resolver.service';
 import { LoadingComponent } from './loading.component';
+import { EditStoryComponent } from './story/story-details/edit/edit.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { LoadingComponent } from './loading.component';
     SearchComponent,
     CommentComponent,
     LoadingComponent,
+    EditStoryComponent
   ],
   imports: [
     BrowserModule,
@@ -107,7 +109,8 @@ import { LoadingComponent } from './loading.component';
     UpdateUserPasswordComponent,
     EditUserDialogComponent,
     SubStepComponent,
-    LoadingComponent
+    LoadingComponent,
+    EditStoryComponent
   ],
   providers: [
     LoggedInGuard,

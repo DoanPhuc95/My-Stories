@@ -28,7 +28,6 @@ export class SubStepComponent implements OnInit {
     this.current_user = JSON.parse(localStorage.getItem('currentUser'));
     this.checkVoted();
     this.height = window.innerHeight * 0.82;
-    console.log(this.step);
   }
 
   onVote() {
@@ -40,7 +39,8 @@ export class SubStepComponent implements OnInit {
   onVoteSuccess(response) {
     if (response) {
       const total_vote = JSON.parse(response._body).data.total_vote;
-      this.step.total_vote = total_vote;
+      this.step.total_vote = total_vote.total_vote;
+      this.step.users_voted = total_vote.user_voted;
       if ($('#heart_step').hasClass('voted')) {
         $('#heart_step').removeClass('voted');
       } else {

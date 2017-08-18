@@ -85,5 +85,9 @@
     "comment": "Comment",
     "more": "More"
   },
-  "loading" : "Loading ..."
+  "loading" : "Loading ...",
+  "editform": {
+    "save": "Save",
+    "editing": "Editing Story"
+  }
 }
