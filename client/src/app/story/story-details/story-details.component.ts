@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IStory } from '../shared/story.model';
 import { StoryResolverService } from '../shared/story-resolver.service';
 import { VoteService } from './vote.service';
 import * as $ from 'jquery';
 import { IMG_URL } from '../../app.routes';
 import { TranslateService } from 'ng2-translate';
-import { MdDialog } from '@angular/material';
-import { EditStoryComponent } from "./edit/edit.component";
+import { MdSnackBar, MdDialog } from '@angular/material';
+import { EditStoryComponent } from './edit/edit.component';
+import { StoryService } from '../shared/story.service';
+import { Response } from '@angular/http';
 
 @Component({
   templateUrl: './story-details.component.html',
   styleUrls: ['./story-details.component.scss'],
-  providers: [StoryResolverService, VoteService]
+  providers: [StoryResolverService, VoteService, StoryService, MdSnackBar]
 })
 
 export class StoryDetailsComponent implements OnInit {
@@ -27,7 +29,8 @@ export class StoryDetailsComponent implements OnInit {
     'other': '# ' + this.translate.instant('single_story.votes')};
 
   constructor(private route: ActivatedRoute, private voteService: VoteService,
-    private translate: TranslateService, private dialog: MdDialog) {
+    private translate: TranslateService, private dialog: MdDialog, private _router: Router,
+    private storyservice: StoryService, private snackBar: MdSnackBar) {
   }
 
   ngOnInit() {
@@ -85,15 +88,32 @@ export class StoryDetailsComponent implements OnInit {
   }
 
   edit() {
-    const height = window.innerHeight * 0.9;
-    const width = window.innerWidth * 0.59;
+    const height = 649;
+    const width = 800;
+
     const dialogRef = this.dialog.open(EditStoryComponent, {
       height: height + 'px',
       width: width + 'px'
     });
-    dialogRef.updatePosition({
-      top: '5%'
-    });
     dialogRef.componentInstance.story = this.story;
+  }
+
+  delete() {
+    this.storyservice.deleteStory(this.story.id, this.current_user.token).
+      subscribe(response => this.onDeleteSuccess(response),
+      response => this.onDeleteError(response));
+  }
+
+  onDeleteSuccess(response) {
+    if (response) {
+      this._router.navigate(['/']);
+    }
+  }
+
+  onDeleteError(response) {
+    console.log(response);
+    this.snackBar.open('Delete Error!, Please try again!', '', {
+      duration: 5000
+    });
   }
 }

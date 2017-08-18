@@ -39,8 +39,8 @@ export class SubStepComponent implements OnInit {
   onVoteSuccess(response) {
     if (response) {
       const total_vote = JSON.parse(response._body).data.total_vote;
-      this.step.total_vote = total_vote.total_vote;
       this.step.users_voted = total_vote.user_voted;
+      this.step.total_vote = total_vote.total_vote;
       if ($('#heart_step').hasClass('voted')) {
         $('#heart_step').removeClass('voted');
       } else {

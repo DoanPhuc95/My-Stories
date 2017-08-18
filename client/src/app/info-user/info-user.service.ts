@@ -18,4 +18,11 @@ export class InfoUserService {
     const options = new RequestOptions({headers: headers});
     return this.http.get(link, options).map(response => response.json());
   }
+
+  changeAvatar(ava, id: number, token: string): Observable<any> {
+    const apiurl = URL + 'api/users/' + id;
+    const headers: any = {'MS-AUTH-TOKEN': token };
+    const options = new RequestOptions({headers: headers});
+    return this.http.patch(apiurl, ava, options);
+  }
 }

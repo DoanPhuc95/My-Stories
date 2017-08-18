@@ -4,12 +4,13 @@ import * as $ from 'jquery';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IMG_URL } from '../../../app.routes';
 import { EditStoryService } from './edit.service';
+import { MdSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss'],
-  providers: [FormBuilder, EditStoryService]
+  providers: [FormBuilder, EditStoryService, MdSnackBar]
 })
 export class EditStoryComponent implements OnInit, AfterViewInit {
   url_image_story = '../../../../assets/picture/default.png';
@@ -22,7 +23,8 @@ export class EditStoryComponent implements OnInit, AfterViewInit {
   step_temp: number;
   substep_temp: number;
 
-  constructor(private formbuilder: FormBuilder, private service: EditStoryService) { }
+  constructor(private formbuilder: FormBuilder, private service: EditStoryService,
+    private snackBar: MdSnackBar) { }
 
   ngOnInit() {
     this.current_user = JSON.parse(localStorage.getItem('currentUser'));
@@ -113,11 +115,13 @@ export class EditStoryComponent implements OnInit, AfterViewInit {
   }
 
   onEditSuccess(response) {
-    console.log(response);
+    window.location.reload();
   }
 
   onEditError(response) {
-    console.log(response);
+    this.snackBar.open('Edit Error!, Please try again!', '', {
+      duration: 5000
+    });
   }
 
   chooseImage(id: string) {
