@@ -3,11 +3,12 @@
     <div class="col-md-5 story-featured-image" [ngStyle]="{'background-image': 'url('+checkExistPicture()+')' }"></div>
     <div class="col-md-7 story-brief-details">
       <h4 class="story-thumbnail-name" [routerLink]="['/story', story.id]">{{story.name}}</h4>
-      <p class="story-thumbnail-description">{{story.description}}</p>
+      <p class="story-thumbnail-description">{{description()}}</p>
       <div class="story-thumbnail-meta-data">
         <div class="row">
           <div class="col-md-3">
-            <img src="https://gitlab.com/uploads/-/system/user/avatar/56386/tt_avatar_small.jpg" alt="" class="story-thumbnail-user-avatar">
+            <img src="{{user_avatar()}}"
+              alt="" class="story-thumbnail-user-avatar">
           </div>
           <div class="col-md-9">
             <p class="story-thumbnail-user-name">{{story.user_name}}</p>

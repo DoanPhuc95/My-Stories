@@ -9,6 +9,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  private current_user;
 
   constructor(private translate: TranslateService, private ng2cable: Ng2Cable,
     private broadcaster: Broadcaster, public toastr: ToastsManager, vcr: ViewContainerRef) {
@@ -18,13 +19,19 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.ng2cable.subscribe('https://ng2-cable-example.herokuapp.com/cable', 'ChatChannel');
-    this.broadcaster.on<string>('CreateMessage').subscribe(
-      message => {
-        const noti = <any>message;
-        const mes = 'You have notify from ' + noti.sender;
-        this.toastr.custom(mes);
+    if (localStorage.getItem('currentUser')) {
+      this.current_user = JSON.parse(localStorage.getItem('currentUser'));
+      if (!sessionStorage.getItem('user_id')) {
+        sessionStorage.setItem('user_id', this.current_user.id);
       }
-    );
+      this.ng2cable.subscribe('https://ng2-cable-example.herokuapp.com/cable', 'ChatChannel');
+      this.broadcaster.on<string>('CreateMessage').subscribe(
+        message => {
+          const noti = <any>message;
+          const mes = 'You have notify from ' + noti.sender;
+          this.toastr.custom(mes);
+        }
+      ); 
+    }
   }
 }

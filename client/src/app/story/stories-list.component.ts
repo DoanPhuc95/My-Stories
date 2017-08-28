@@ -16,13 +16,12 @@ export class StoriesListComponent implements OnInit {
 
   stories_categories: any[];
   constructor(private storyService: StoryService,
-    private route: ActivatedRoute,
     public dialog: MdDialog) { }
 
   ngOnInit() {
     this.storyService.getStoriesWithCategories().subscribe(
       (stories_categories) => {
-        this.stories_categories = stories_categories
+        this.stories_categories = stories_categories;
       }
     )
   }

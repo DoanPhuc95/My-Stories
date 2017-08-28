@@ -51,11 +51,4 @@ export class LoginComponent implements OnInit {
       response => this.onNext(response),
       response => this.onError(response));
   }
-
-  openDialogSignUp() {
-    this.dialog.open(SignupComponent, {
-      height: '500px',
-      width: '600px',
-    });
-  }
 }

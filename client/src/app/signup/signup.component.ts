@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SignupService } from './signup.service';
-import { Router } from '@angular/router';
 import { MdSnackBarModule } from '@angular/material';
 import { MdSnackBar } from '@angular/material';
 import { MdDialog } from '@angular/material';
 import { LoginService } from '../login/login.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import * as $ from 'jquery';
 
 @Component({
   selector: 'app-signup',
@@ -22,7 +20,6 @@ export class SignupComponent implements OnInit {
 
   constructor(public signupService: SignupService,
     public loginService: LoginService,
-    private router: Router,
     public snackBar: MdSnackBar,
     public dialog: MdDialog,
     private formbuilder: FormBuilder
@@ -56,12 +53,5 @@ export class SignupComponent implements OnInit {
         })
       }
     });
-  }
-}
-
-export interface User_login {
-  sign_in: {
-  email: string,
-  password: string,
   }
 }
