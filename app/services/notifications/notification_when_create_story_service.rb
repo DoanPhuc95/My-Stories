@@ -11,7 +11,7 @@ class Notifications::NotificationWhenCreateStoryService
     user.followers.each do |each_follower|
       Notification.create! notificationable_type: User.name,
         notificationable_id: user.id, recipient_id: each_follower.id,
-        content: notification_create_story
+        content: notification_create_story, changed_story_id: story.id
     end
 
     SendNotificationWhenCreateStoryJob.perform_later user, story

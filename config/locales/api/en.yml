@@ -72,3 +72,9 @@ en:
     story_followers_showed: "Story followers has been showed"
     messages:
       relationship_story_not_found: "Can't find relationship with this story"
+  notifications:
+    dont_have_permission: "You don't have permission to do this action"
+    cant_find_user: "Can't find user"
+    index_notifications_have_showed: "The notifications have showed"
+    update_fail: "Updated fail"
+    update_successfully: "Updated successfully"

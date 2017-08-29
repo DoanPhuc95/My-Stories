@@ -12,6 +12,7 @@ namespace :api, defaults: {format: "json"} do
     get "search", to: "search#search"
     resources :users, only: [:index, :show, :update, :destroy] do
       resources :relationships, only: [:index, :create, :destroy]
+      resources :notifications, only: [:index, :update]
     end
     resources :categories, only: :index
     resources :stories, except: [:new, :edit] do

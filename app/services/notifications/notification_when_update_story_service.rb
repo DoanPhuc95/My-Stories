@@ -23,7 +23,7 @@ class Notifications::NotificationWhenUpdateStoryService
     story.followers.each do |each_follower|
       Notification.create! notificationable_type: Story.name,
         notificationable_id: story.id, recipient_id: each_follower.id,
-        content: notification_update_story_for_story
+        content: notification_update_story_for_story, changed_story_id: story.id
     end
   end
 
@@ -34,7 +34,7 @@ class Notifications::NotificationWhenUpdateStoryService
     user.followers.each do |each_follower|
       Notification.create! notificationable_type: User.name,
         notificationable_id: user.id, recipient_id: each_follower.id,
-        content: notification_update_story_for_user
+        content: notification_update_story_for_user, changed_story_id: story.id
     end
   end
 end
