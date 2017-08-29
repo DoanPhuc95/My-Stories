@@ -1,6 +1,7 @@
 class Api::V1::CommentsController < Api::BaseController
   before_action :find_object, only: %i(update destroy)
   before_action :find_commentable, only: :create
+  before_action :find_owner_story, only: :destroy
 
   def create
     @comment = commentable.comments.new comments_params
@@ -19,7 +20,7 @@ class Api::V1::CommentsController < Api::BaseController
   end
 
   def destroy
-    if correct_user comment.user
+    if correct_user(comment.user) || check_owner_story
       if comment.destroy
         comment_action_success "destroyed"
       else
@@ -32,10 +33,19 @@ class Api::V1::CommentsController < Api::BaseController
 
   private
 
-  attr_reader :comment, :story, :step, :commentable
+  attr_reader :comment, :story, :step, :commentable, :owner_story
 
   def comments_params
     params.require(:comment).permit Comment::ATTRIBUTES_PARAMS
+  end
+
+  def check_owner_story
+    owner_story.eql? current_user
+  end
+
+  def find_owner_story
+    story = Story.find_by id: params[:story_id]
+    @owner_story = story.user
   end
 
   def find_commentable
