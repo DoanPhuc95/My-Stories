@@ -54,7 +54,12 @@
     "vote": "Vote",
     "votes": "Votes",
     "edit": "Edit ...",
-    "delete": "Delete ..."
+    "delete": "Delete ...",
+    "notloggedin": "You need login before comment, vote, clone or follow action !",
+    "clonesuccess": "Clone Success', 'Open your profile",
+    "deleteerror": "Delete Error!, Please try again!",
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   },
   "step": {
     "votes": "Voted",

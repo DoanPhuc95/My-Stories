@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InfoUserComponent } from '../../info-user/info-user.component'
-import { FormsModule } from '@angular/forms';
-import { MdInputModule } from '@angular/material';
 
 
 @Component({
@@ -20,15 +18,12 @@ import { MdInputModule } from '@angular/material';
   ],
   providers: [ InfoUserComponent ]
 })
-export class UpdateUserPasswordComponent implements OnInit {
+export class UpdateUserPasswordComponent {
 
   constructor() {
   }
 
-  ngOnInit() {
-  }
-
   onSubmit(value: any) {
-    console.log(value)
+    console.log(value);
   }
 }

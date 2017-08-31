@@ -11,7 +11,6 @@ import { SubStepComponent } from './sub-step.component';
 
 export class StepListComponent implements OnDestroy {
 
-  current_user = JSON.parse(localStorage.currentUser);
   @Input() story_id: number;
   @Input() steps: IStep[];
   @Input() user_id: number;

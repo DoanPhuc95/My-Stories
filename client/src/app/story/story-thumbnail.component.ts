@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { IStory } from './shared/story.model';
 import { IMG_URL } from '../constants';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-story-thumbnail',
@@ -35,10 +36,9 @@ export class StoryThumbnailComponent {
 
   description(): string {
     var description = this.story.description;
-    if (description.length > 70) {
+    if (description.length > 73) {
       description = description.substring(0, 69) + '...';
     }
     return description;
   }
 }
-

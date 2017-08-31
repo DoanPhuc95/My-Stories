@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { URL } from '../constants';
-import { User } from '../info-user/user'
 
 @Injectable()
 export class UpdateUserService {

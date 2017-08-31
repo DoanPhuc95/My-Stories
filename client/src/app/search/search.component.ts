@@ -1,6 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { SearchService} from './search.service';
-import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-search',
@@ -33,14 +32,12 @@ export class SearchComponent implements OnInit {
   onSubmit(values: any) {
     console.log(window.location.href);
     this.searchService.search(values.search.email).subscribe(
-      response => this.onNext(response),
-      response => this.onError(response));
+      response => this.onNext(response));
   }
 
   onSubmitBar(values: any){
     this.searchService.search(values).subscribe(
-      response => this.onNext(response),
-      response => this.onError(response));
+      response => this.onNext(response));
   }
 
   onNext(response){
@@ -49,24 +46,12 @@ export class SearchComponent implements OnInit {
       this.search_value = JSON.parse(response._body);
       this.search_story = this.search_value.data.stories;
       for( let story of this.search_story){
-        console.log(story._id);
         this.searchService.getStep(story._id).subscribe(
           responses => this.onNextStoryInfo(responses)
         )
       }
       this.search_step = this.search_value.data.steps;
-      console.log(this.search_step);
     }
-  }
-
-  onError(response){
-    console.log('dm')
-  }
-
-  getStoryStep(values: any){
-    this.searchService.getStep(values).subscribe(
-      response => this.onNextStoryInfo(response)
-    )
   }
 
   onNextStoryInfo(response){
@@ -74,7 +59,6 @@ export class SearchComponent implements OnInit {
       this.story_value = JSON.parse(response._body);
       const tmp = this.story_value.data.story;
       this.story_info.push(tmp);
-      console.log(tmp.steps+ ' hihi');
     }
   }
 

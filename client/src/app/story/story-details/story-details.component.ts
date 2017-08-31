@@ -10,7 +10,6 @@ import { MdSnackBar, MdDialog } from '@angular/material';
 import { EditStoryComponent } from './edit/edit.component';
 import { StoryService } from '../shared/story.service';
 import { FollowService } from '../shared/follow-story.server';
-import { Response } from '@angular/http';
 
 @Component({
   templateUrl: './story-details.component.html',
@@ -20,46 +19,47 @@ import { Response } from '@angular/http';
 
 export class StoryDetailsComponent implements OnInit {
 
-  testObj: any = {};
-
   story: IStory;
   image_url = IMG_URL;
   current_user: any;
   status_follow: any;
   public follow_title: String;
   commentMapping:
-    {[k: string]: string} = {'=1': '# ' + this.translate.instant('single_story.comment'),
-    'other': '# ' + this.translate.instant('single_story.comments')};
+  { [k: string]: string } = {
+    '=1': '# ' + this.translate.instant('single_story.comment'),
+    'other': '# ' + this.translate.instant('single_story.comments')
+  };
   voteMapping:
-    {[k: string]: string} = {'=1': '# ' + this.translate.instant('single_story.vote'),
-    'other': '# ' + this.translate.instant('single_story.votes')};
+  { [k: string]: string } = {
+    '=1': '# ' + this.translate.instant('single_story.vote'),
+    'other': '# ' + this.translate.instant('single_story.votes')
+  };
 
   constructor(private route: ActivatedRoute, private voteService: VoteService,
-    private translate: TranslateService, private dialog: MdDialog, private _router: Router,
-    private storyservice: StoryService, private followService: FollowService, private snackBar: MdSnackBar) {
+    private translate: TranslateService, private dialog: MdDialog, private snackBar: MdSnackBar,
+    private storyservice: StoryService, private followService: FollowService, private _router: Router) {
   }
 
   ngOnInit() {
     this.story = this.route.snapshot.data['story'];
-    this.getFollowStory(this.story.id);
     this.current_user = JSON.parse(localStorage.getItem('currentUser'));
     this.checkVoted();
+    if (this.current_user) {
+      this.storyservice.getFollow(this.story.id, this.current_user.token).subscribe(
+        response => this.setStatusFollow(response));
+    }
   }
 
-  getFollowStory(id :number){
-    this.storyservice.getFollow(id, JSON.parse(localStorage.getItem('currentUser')).token)
-      .subscribe(response => this.onSuccessgGetFollow(response));
-  }
-  onSuccessgGetFollow(response){
+  setStatusFollow(response) {
     this.status_follow = response;
-    this.setTitleFollow(this.status_follow);
+    this.setTitleFollow();
   }
 
-  setTitleFollow(temp: any) {
-    if (temp === false){
-      this.follow_title = 'Follow'
+  setTitleFollow() {
+    if (!this.status_follow) {
+      this.follow_title = this.translate.instant('single_story.follow');
     } else {
-      this.follow_title = 'Unfollow'
+      this.follow_title = this.translate.instant('single_story.unfollow');
     }
   }
 
@@ -68,14 +68,25 @@ export class StoryDetailsComponent implements OnInit {
   }
 
   onComment() {
+    if (!this.current_user) {
+      this.snackBar.open(this.translate.instant('single_story.notloggedin'), '', {
+        duration: 5000
+      });
+      return;
+    }
     window.scroll(0, window.innerHeight);
     $('#cmt_target').focus();
   }
 
   onVote() {
-    this.voteService.voteStory(this.story.id, this.current_user.token).subscribe(
-      response => this.onVoteSuccess(response),
-      response => this.onVoteError(response));
+    if (this.current_user) {
+      this.voteService.voteStory(this.story.id, this.current_user.token).subscribe(
+        response => this.onVoteSuccess(response));
+    } else {
+      this.snackBar.open(this.translate.instant('single_story.notloggedin'), '', {
+        duration: 5000
+      });
+    }
   }
 
   onVoteSuccess(response) {
@@ -90,10 +101,6 @@ export class StoryDetailsComponent implements OnInit {
     }
   }
 
-  onVoteError(response) {
-    console.log(response);
-  }
-
   checkVoted() {
     if (this.story.users_voted === null) {
       this.story.users_voted = [];
@@ -104,10 +111,12 @@ export class StoryDetailsComponent implements OnInit {
       return;
     };
 
-    if (user_voted.find(user => user.id === this.current_user.id)) {
-      $('#heart').addClass('voted');
-    } else {
-      $('#heart').removeClass('voted');
+    if (this.current_user) {
+      if (user_voted.find(user => user.id === this.current_user.id)) {
+        $('#heart').addClass('voted');
+      } else {
+        $('#heart').removeClass('voted');
+      }
     }
   }
 
@@ -125,7 +134,7 @@ export class StoryDetailsComponent implements OnInit {
   delete() {
     this.storyservice.deleteStory(this.story.id, this.current_user.token).
       subscribe(response => this.onDeleteSuccess(response),
-      response => this.onDeleteError(response));
+      response => this.onDeleteError());
   }
 
   onDeleteSuccess(response) {
@@ -134,59 +143,69 @@ export class StoryDetailsComponent implements OnInit {
     }
   }
 
-  onDeleteError(response) {
-    console.log(response);
-    this.snackBar.open('Delete Error!, Please try again!', '', {
+  onDeleteError() {
+    this.snackBar.open(this.translate.instant('single_story.deleteerror'), '', {
       duration: 5000
     });
   }
 
-  onCloneButtom(id_story: number){
-    console.log(this.current_user.token)
-    this.storyservice.cloneStory(id_story, this.current_user.token).
-      subscribe(response => this.onCloneSuccess(response))
-  }
-
-  onCloneSuccess(response){
-    var jsonObject : any = JSON.parse(response._body);
-    let snackBarRef = this.snackBar.open('Clone Success', 'Open your profile', {
-      duration: 2000,
-    });
-    snackBarRef.onAction().subscribe(() => 
-    {
-      console.log(jsonObject);
-      this._router.navigate(['/user']);
-    }
-  )
-  }
-
-  onButtomFollow(id: any) {
-    console.log(this.status_follow)
-    if (this.status_follow === false){
-      this.followStory(id);
+  onCloneButtom(id_story: number) {
+    if (this.current_user) {
+      this.storyservice.cloneStory(id_story, this.current_user.token).
+        subscribe(response => this.onCloneSuccess())
     } else {
-      this.unfollowstory(id);
+      this.snackBar.open(this.translate.instant('single_story.notloggedin'), '', {
+        duration: 5000
+      });
     }
   }
 
-  followStory(id: number){
-    this.current_user = JSON.parse(localStorage.getItem('currentUser'));
-    this.followService.createFollow(id, this.current_user.token).subscribe(response => this.followPath(response));
+  onCloneSuccess() {
+    let snackBarRef = this.snackBar.open(this.translate.instant('single_story.clonesuccess'), '', {
+      duration: 2000
+    });
+    snackBarRef.onAction().subscribe(() => {
+      this._router.navigate(['/user']);
+    });
   }
 
-  followPath(response){
-    console.log('hihi');
-    this.follow_title = 'Unfollow';
-    this.getFollowStory(this.story.id);
+  onButtomFollow(id: number) {
+    if (this.current_user) {
+      if (this.status_follow === false) {
+        this.followStory(id);
+      } else {
+        this.unfollowstory(id);
+      }
+    } else {
+      this.snackBar.open(this.translate.instant('single_story.notloggedin'), '', {
+        duration: 5000
+      });
+    }
   }
 
-  unfollowstory(id: number){
-    this.current_user = JSON.parse(localStorage.getItem('currentUser'));
-    this.followService.destroyFollow(this.status_follow, id, this.current_user.token).subscribe(response => this.unFollowPath(response));
+  followStory(id: number) {
+    this.followService.createFollow(id, this.current_user.token).
+      subscribe(response => this.follow_toggle_success(response));
   }
 
-  unFollowPath(response){
-    this.follow_title = 'Follow';
-    this.getFollowStory(this.story.id);
+  follow_toggle_success(response) {
+    if (this.status_follow === false) {
+      this.status_follow = response.data.id;
+    } else {
+      this.status_follow = false;
+    }
+    this.setTitleFollow();
+  }
+
+  unfollowstory(id: number) {
+    this.followService.destroyFollow(this.status_follow, id, this.current_user.token).
+      subscribe(response => this.follow_toggle_success(response));
+  }
+
+  showEditDialog(): boolean {
+    if (this.current_user) {
+      return this.story.user_id === this.current_user.id;
+    }
+    return false;
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UpdateUserService } from './updateuser.service';
 import { Router } from '@angular/router';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MdDialog } from '@angular/material';
 import { UpdateUserNameComponent } from './update-user-name/update-user-name.component';
 import { UpdateUserPasswordComponent } from './update-user-password/update-user-password.component';
@@ -15,10 +15,8 @@ import { InfoUserComponent } from '../info-user/info-user.component'
 })
 
 export class UpdateUserComponent implements OnInit {
-  EditUserForm: FormGroup;
 
-  constructor(private formbuilder: FormBuilder, private router: Router,
-    public updateuserService: UpdateUserService, public dialog: MdDialog) { }
+  constructor(private router: Router, public dialog: MdDialog) { }
 
   ngOnInit() {
     if (!localStorage.getItem('currentUser')) {

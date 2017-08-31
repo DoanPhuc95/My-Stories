@@ -7,8 +7,7 @@
       <div class="story-thumbnail-meta-data">
         <div class="row">
           <div class="col-md-3">
-            <img src="{{user_avatar()}}"
-              alt="" class="story-thumbnail-user-avatar">
+            <img src="{{user_avatar()}}" alt="" class="story-thumbnail-user-avatar">
           </div>
           <div class="col-md-9">
             <p class="story-thumbnail-user-name">{{story.user_name}}</p>
@@ -17,11 +16,6 @@
               <button md-button>
                 <i class="material-icons">favorite</i>
                 {{story.total_vote}}
-              </button>
-            </div>
-            <div class="story-thumbnail-votes">
-              <button md-button>
-                <p *ngIf="story.followed, else unfollowed">followed</p>
               </button>
             </div>
           </div>

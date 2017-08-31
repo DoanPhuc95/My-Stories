@@ -31,6 +31,12 @@ export class SubStepComponent implements OnInit {
   }
 
   onVote() {
+    if (!this.current_user) {
+      this.snackBar.open(this.translate.instant('single_story.notloggedin'), '', {
+        duration: 5000
+      });
+      return;
+    }
     this.voteService.voteStep(this.story_id, this.step.id, this.current_user.token)
       .subscribe(response => this.onVoteSuccess(response),
       response => this.onVoteError(response));
@@ -59,6 +65,9 @@ export class SubStepComponent implements OnInit {
 
   checkVoted() {
     const user_voted = this.step.users_voted;
+    if (!this.current_user) {
+      return;
+    }
     if (user_voted.find(user => user.id === this.current_user.id)) {
       $('#heart_step').addClass('voted');
     } else {
@@ -67,6 +76,12 @@ export class SubStepComponent implements OnInit {
   }
 
   onFocusComment() {
+    if (!this.current_user) {
+      this.snackBar.open(this.translate.instant('single_story.notloggedin'), '', {
+        duration: 5000
+      });
+      return;
+    }
     $('input').focus();
   }
 

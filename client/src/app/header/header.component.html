@@ -10,8 +10,9 @@
         <form #searchForm="ngForm" (keyup.enter)="onSubmit(searchForm.value)" class="search-form">
           <div ngModelGroup="search">
             <div class="form-group has-feedback">
-              <label for="search" class="sr-only">{{'search_placeholder' | translate}}</label>
-              <input type="text" class="form-control" name="email" id="email" placeholder="Type what you want to discover..." ngModel/>
+              <label class="sr-only">{{'search_placeholder' | translate}}</label>
+              <input type="text" class="form-control" name="email" id="email"
+                placeholder="{{'search_placeholder' | translate}}" ngModel/>
               <span class="glyphicon glyphicon-search form-control-feedback"></span>
             </div>
           </div>

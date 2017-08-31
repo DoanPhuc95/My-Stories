@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SignupService } from './signup.service';
 import { MdSnackBarModule } from '@angular/material';
 import { MdSnackBar } from '@angular/material';
@@ -12,20 +12,15 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./signup.component.scss'],
   providers: [ SignupService, MdSnackBarModule, MdDialog, LoginService ]
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent {
 
   loginForm: FormGroup;
   private User: any = {};
   private User_info: any = {};
 
-  constructor(public signupService: SignupService,
-    public loginService: LoginService,
-    public snackBar: MdSnackBar,
-    public dialog: MdDialog,
-    private formbuilder: FormBuilder
-  ) { }
-
-  ngOnInit() { }
+  constructor(public signupService: SignupService, public loginService: LoginService,
+    public snackBar: MdSnackBar, public dialog: MdDialog, private formbuilder: FormBuilder) {
+  }
 
   createForm(email:string, password: string) {
     this.loginForm = this.formbuilder.group({

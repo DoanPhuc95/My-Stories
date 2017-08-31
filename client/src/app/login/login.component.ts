@@ -11,8 +11,7 @@ import { TranslateService } from 'ng2-translate';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers: [ LoginService, SignupComponent, MdDialog, MdSnackBar,
-    MdTooltipModule ]
+  providers: [ LoginService, SignupComponent, MdDialog, MdSnackBar, MdTooltipModule ]
 })
 export class LoginComponent implements OnInit {
   private User: any = {};
@@ -40,7 +39,7 @@ export class LoginComponent implements OnInit {
     }
   };
 
-  onError(response) {
+  onError() {
     this.snackBar.open(this.translate.instant('loginfalse'), '', {
       duration: 5000
     })
@@ -49,6 +48,6 @@ export class LoginComponent implements OnInit {
   onSubmit(value: any) {
     this.loginService.login(value).subscribe(
       response => this.onNext(response),
-      response => this.onError(response));
+      response => this.onError());
   }
 }

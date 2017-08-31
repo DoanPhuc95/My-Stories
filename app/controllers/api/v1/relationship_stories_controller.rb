@@ -66,7 +66,8 @@ class Api::V1::RelationshipStoriesController < Api::BaseController
 
   def follow_success
     render json: {
-      messages: I18n.t("relationships.follow_success")
+      messages: I18n.t("relationships.follow_success"),
+      data: {id: relationship.id}
     }, status: :ok
   end
 

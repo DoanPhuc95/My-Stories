@@ -1,21 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { LogoutService } from './logout.service';
+import { LoginComponent } from '../login/login.component'
 import { MdDialog } from '@angular/material';
+import { SignupComponent } from '../signup/signup.component';
 import * as $ from 'jquery';
+import { EditUserDialogComponent } from '../info-user/user-dialog.component';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  providers: [LogoutService]
+  providers: [LogoutService, LoginComponent]
 })
 
 export class HeaderComponent implements OnInit {
   private current_user: any;
   public current_url: any;
-  constructor(public logoutService: LogoutService, public dialog: MdDialog,
-    private router: Router) {
+  constructor(public logoutService: LogoutService, public dialog: MdDialog, private router: Router) {
       this.current_url = window.location.href;
   }
 

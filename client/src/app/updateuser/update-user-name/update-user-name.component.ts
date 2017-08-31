@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { InfoUserComponent } from '../../info-user/info-user.component';
 import { UpdateUserService } from '../updateuser.service'
+import { MdSnackBar } from '@angular/material';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'app-update-user-name',
@@ -16,13 +18,15 @@ import { UpdateUserService } from '../updateuser.service'
       }
     `
   ],
-  providers: [ InfoUserComponent, UpdateUserService ]
+  providers: [ InfoUserComponent, UpdateUserService, MdSnackBar ]
 })
+
 export class UpdateUserNameComponent implements OnInit {
   current_user: any;
   new_name: string;
 
-  constructor(public updateUserSever: UpdateUserService) {
+  constructor(public updateUserSever: UpdateUserService, private snackBar: MdSnackBar,
+    private translate: TranslateService) {
   }
 
   ngOnInit() {
@@ -35,8 +39,10 @@ export class UpdateUserNameComponent implements OnInit {
     location.reload();
   };
 
-  onError(response) {
-    console.log('dm');
+  onError() {
+    this.snackBar.open(this.translate.instant('step.checkederror'), '', {
+      duration: 5000
+    });
   };
 
   onSubmit(value: any) {
@@ -44,6 +50,6 @@ export class UpdateUserNameComponent implements OnInit {
     this.current_user = JSON.parse(localStorage.getItem('currentUser'));
     this.updateUserSever.edit(this.current_user.id, this.current_user.token, value).subscribe(
       response => this.onNext(response),
-      response => this.onError(response));
+      response => this.onError());
   }
 }

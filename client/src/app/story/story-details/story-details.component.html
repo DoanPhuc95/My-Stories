@@ -4,7 +4,7 @@
   </h1>
 
   <button md-icon-button [mdMenuTriggerFor]="menu" class="story-menu"
-    *ngIf="story.user_id === current_user.id">
+    *ngIf="showEditDialog()">
     <i class="material-icons">reorder</i>
   </button>
   <md-menu #menu="mdMenu">
@@ -52,7 +52,7 @@
         <button md-button class="col-md-3 font" (click)="onCloneButtom(story.id)">
           <i class="material-icons">library_add</i> {{'clone' | translate}}
         </button>
-        <button md-button class="col-md-2 font" id="heart" (click)="onButtomFollow(story.id)">
+        <button md-button class="col-md-2 font" (click)="onButtomFollow(story.id)">
           <i class="material-icons">visibility</i> {{follow_title}}
         </button>
         <div class="col-md-3"></div>

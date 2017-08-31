@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs/Rx';
-import { IStory, IStep } from '../shared/story.model';
-import { Http, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/map'
 
 @Injectable()

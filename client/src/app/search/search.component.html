@@ -4,7 +4,8 @@
       <div class="form">
         <form #searchForm="ngForm" (ngSubmit)="onSubmit(searchForm.value)" class="form-search form-horizontal">
           <div ngModelGroup="search">
-            <input type="text" class="input-search" placeholder="{{'search_placeholder' | translate}}" name="email" id="email" ngModel/>
+            <input type="text" class="input-search" placeholder="{{'search_placeholder' | translate}}"
+              name="email" id="email" ngModel/>
             <button type="submit" class="btn-search">{{'search_placeholder' | translate}}</button>
           </div>
         </form>

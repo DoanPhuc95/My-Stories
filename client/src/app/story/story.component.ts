@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-story',
@@ -8,7 +8,6 @@ import { Component, OnInit } from '@angular/core';
     </div>`,
   styles: [`
     .hdd {
-      /*background-image: url("");*/
       height: 100vh;
       background-size: cover;
     }
@@ -16,16 +15,7 @@ import { Component, OnInit } from '@angular/core';
   providers: [ ]
 
 })
-export class StoryComponent implements OnInit {
-  public stories: any
+export class StoryComponent {
+
   constructor() {}
-
-  ngOnInit() {
-
-  }
-
-  onSuccess(response) {
-    const stories = response.data.stories;
-    console.log(this.stories);
-  }
 }

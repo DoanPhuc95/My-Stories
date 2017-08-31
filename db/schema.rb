@@ -47,11 +47,8 @@ ActiveRecord::Schema.define(version: 20170825013049) do
     t.string "notificationable_type"
     t.integer "notificationable_id"
     t.integer "recipient_id"
-    t.integer "changed_story_id"
     t.string "content"
-    t.boolean "read", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.boolean "read"
   end
 
   create_table "relationship_stories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -90,7 +87,6 @@ ActiveRecord::Schema.define(version: 20170825013049) do
     t.float "completed_rate", limit: 24
     t.integer "total_vote", default: 0
     t.integer "story_id"
-    t.datetime "due_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["story_id"], name: "index_steps_on_story_id"
@@ -100,7 +96,7 @@ ActiveRecord::Schema.define(version: 20170825013049) do
     t.string "name"
     t.text "description"
     t.integer "total_vote", default: 0
-    t.boolean "is_public", default: false
+    t.boolean "is_public"
     t.datetime "due_date"
     t.integer "user_id"
     t.integer "category_id"

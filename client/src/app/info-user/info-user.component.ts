@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from './user';
 import { InfoUserService } from './info-user.service';
 import { MdTooltipModule } from '@angular/material';
-import { ActivatedRoute , Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
 import { LoadingComponent } from '../loading.component';
 import { MdSnackBar, MdDialog } from '@angular/material';
@@ -29,7 +29,7 @@ export class InfoUserComponent implements OnInit {
   following_story: any[];
   position = 'before';
   constructor(private infoUser: InfoUserService, private route: ActivatedRoute,
-    private dialog: MdDialog, private router: Router, private snackBar: MdSnackBar) { }
+    private dialog: MdDialog, private snackBar: MdSnackBar) { }
 
   ngOnInit() {
     this.getDataUser();
@@ -62,22 +62,22 @@ export class InfoUserComponent implements OnInit {
   }
 
   onFollow(id: number) {
-    console.log(typeof id);
     this.current_user = JSON.parse(localStorage.getItem('currentUser'));
-    this.infoUser.createFollow(id, this.current_user.token).subscribe(response => this.followpath(response));
+    this.infoUser.createFollow(id, this.current_user.token).subscribe(response => this.followpath());
   }
 
   onUnfollow(id: number) {
     this.current_user = JSON.parse(localStorage.getItem('currentUser'));
-    this.infoUser.destroyFollow(this.relastionship_id, id, this.current_user.token).subscribe(response => this.unfollowpath(response));
+    this.infoUser.destroyFollow(this.relastionship_id, id, this.current_user.token).
+      subscribe(response => this.unfollowpath());
   }
 
-  unfollowpath(response){
+  unfollowpath(){
     this.user_followed = false;
     this.user_followed_status = 'Follow';
   }
 
-  followpath(response){
+  followpath(){
     this.user_followed_status = 'Unfollow';
     this.user_followed = true;
     this.getDataUser();
@@ -105,7 +105,7 @@ export class InfoUserComponent implements OnInit {
       this.user_followed_status = 'Unfollow',
       this.relastionship_id = response.data.followed;
     }
-    if (this.user.avatar) { 
+    if (this.user.avatar) {
       $('#avatar').attr('src', IMG_URL + this.user.avatar);
     }
   }
@@ -131,7 +131,7 @@ export class InfoUserComponent implements OnInit {
     };
     this.infoUser.changeAvatar(ava, this.current_user.id, this.current_user.token).
       subscribe(response => this.onChangeSuccess(response, image),
-      response => this.onChangeError(response));
+      response => this.onChangeError());
     this.showAlert();
   }
 
@@ -139,11 +139,10 @@ export class InfoUserComponent implements OnInit {
     this.dialog.closeAll();
     if (response) {
       $('#avatar').attr('src', image.result);
-      console.log(image);
     }
   }
 
-  onChangeError(response) {
+  onChangeError() {
     this.dialog.closeAll();
     this.snackBar.open('Change Avatar Error!, Please try again!', '', {
       duration: 5000

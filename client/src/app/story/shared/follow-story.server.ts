@@ -1,7 +1,6 @@
-import { Subject, Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
-import { IStory, IStep } from '../shared/story.model';
-import { Http, Response, RequestOptions } from '@angular/http';
+import { Http, RequestOptions } from '@angular/http';
 import { URL } from '../../constants';
 
 @Injectable()
@@ -18,8 +17,8 @@ export class FollowService {
     return this.http.post(link, id, options).map(response => response.json());
   }
 
-  destroyFollow(relastionship_id:number, id: number, token: string): Observable<any> {
-    const link = this.apiURL + id + '/relationship_stories/' +  relastionship_id;
+  destroyFollow(relastionship_id: number, story_id: number, token: string): Observable<any> {
+    const link = this.apiURL + story_id + '/relationship_stories/' +  relastionship_id;
     const headers: any = {'MS-AUTH-TOKEN': token };
     const options = new RequestOptions({headers: headers});
     return this.http.delete(link, options).map(response => response.json());

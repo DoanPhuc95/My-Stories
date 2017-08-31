@@ -1,6 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { IMG_URL } from '../constants';
-import * as $ from 'jquery';
 
 @Component({
   selector: 'app-step-thumbnail',
