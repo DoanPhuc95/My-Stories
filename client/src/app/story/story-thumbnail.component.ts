@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { IStory } from './shared/story.model';
 import { IMG_URL } from '../constants';
-import * as $ from 'jquery';
 
 @Component({
   selector: 'app-story-thumbnail',
@@ -25,4 +24,21 @@ export class StoryThumbnailComponent {
     }
     return '/assets/picture/default_story.jpg';
   }
+
+  user_avatar(): string {
+    const avatar = this.story.avatar;
+    if (avatar.url) {
+      return avatar.url;
+    }
+    return '../../assets/picture/no-avatar.jpg';
+  }
+
+  description(): string {
+    var description = this.story.description;
+    if (description.length > 70) {
+      description = description.substring(0, 69) + '...';
+    }
+    return description;
+  }
 }
+

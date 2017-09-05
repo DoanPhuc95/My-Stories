@@ -45,6 +45,14 @@ export class CommentComponent implements OnInit {
     );
   }
 
+  avatar(i: number): string {
+    const avatar = this.comments[i].user_avatar;
+    if (avatar.url) {
+      return avatar.url;
+    }
+    return '../../../../assets/picture/no-avatar.jpg';
+  }
+
   createForm() {
     this.packageCommentForm = this.formbuilder.group({
       comment: this.commentForm = this.formbuilder.group({
